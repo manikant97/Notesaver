@@ -1,25 +1,29 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from 'react';
+import jsPDF from 'jspdf';
+import './App.css'; 
 
-function App() {
+const NotesComponent = () => {
+  const [notes, setNotes] = useState('');
+
+  const handleDownload = () => {
+    const pdf = new jsPDF();
+    pdf.text(notes, 10, 10); 
+    pdf.save('downloaded-file.pdf');
+  };
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className="container">
+      <textarea
+        value={notes}
+        onChange={(e) => setNotes(e.target.value)}
+        placeholder="Enter your notes here..."
+        className="textarea"
+      />
+      <button onClick={handleDownload} className="button"> 
+        Download Notes as PDF
+      </button>
     </div>
   );
-}
+};
 
-export default App;
+export default NotesComponent;
